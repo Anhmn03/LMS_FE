@@ -1,38 +1,333 @@
-.App {
-  text-align: center;
+/* Reset mặc định và thiết lập font */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+/* Container chính */
+.home-page {
+  display: flex;
   min-height: 100vh;
+}
+
+/* Thanh bên (Sidebar) */
+.sidebar {
+  width: 260px;
+  background: linear-gradient(180deg, #1a3c5e 0%, #102a44 100%);
+  color: #ffffff;
+  padding: 30px 20px;
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+  transition: width 0.3s ease;
+}
+
+.sidebar-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.sidebar-header img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  border: 2px solid #ffffff;
+}
+
+.sidebar-header h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.sidebar-header p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.sidebar-menu {
+  list-style: none;
+}
+
+.sidebar-menu li {
+  margin: 15px 0;
+}
+
+.sidebar-menu a {
+  color: #d1d5db;
+  text-decoration: none;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover {
+  background-color: #2a5480;
+  color: #ffffff;
+  transform: translateX(5px);
+}
+
+/* Nội dung chính */
+.main-content {
+  flex: 1;
+  padding: 40px;
+  background-color: #f5f7fa;
+  overflow-y: auto;
+}
+
+.main-content h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a3c5e;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.main-content h2::after {
+  content: '';
+  width: 50px;
+  height: 3px;
+  background-color: #1a3c5e;
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+}
+
+/* Khóa học */
+.courses {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.course-card {
+  background: linear-gradient(135deg, #2e6b6b 0%, #1a4b4b 100%);
+  color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.course-card h5 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.course-card p {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Bảng học kỳ */
+.semester-table {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.semester-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.semester-table th,
+.semester-table td {
+  padding: 15px;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.semester-table th {
+  background-color: #1a3c5e;
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.semester-table td {
+  border-bottom: 1px solid #e5e7eb;
+  color: #4b5563;
+}
+
+.semester-table tr:last-child td {
+  border-bottom: none;
+}
+
+.semester-table tr:hover td {
+  background-color: #f9fafb;
+}
+
+/* Trang Đăng nhập/Đăng ký */
+.auth-page {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0e7ff 0%, #f5f7fa 100%);
+  padding: 20px;
 }
 
-.App-link {
-  color: #61dafb;
+.auth-page img {
+  width: 120px;
+  margin-bottom: 30px;
+  animation: bounce 1s ease infinite;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.auth-page h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1a3c5e;
+  margin-bottom: 25px;
+}
+
+.auth-page form {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-page form div {
+  margin-bottom: 20px;
+}
+
+.auth-page label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1a3c5e;
+}
+
+.auth-page input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-page input:focus {
+  outline: none;
+  border-color: #1a3c5e;
+  box-shadow: 0 0 0 3px rgba(26, 60, 94, 0.1);
+}
+
+.auth-page button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #1a3c5e 0%, #2a5480 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.auth-page button:hover {
+  background: linear-gradient(90deg, #2a5480 0%, #1a3c5e 100%);
+  transform: translateY(-2px);
+}
+
+.auth-page p {
+  margin-top: 20px;
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+.auth-page a {
+  color: #1a3c5e;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.auth-page a:hover {
+  color: #2a5480;
+  text-decoration: underline;
+}
+
+/* Hiệu ứng animation cho logo */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .main-content {
+    padding: 20px;
+  }
+
+  .courses {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-page form {
+    padding: 20px;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+
+  .home-page {
+    flex-direction: column;
+  }
+
+  .main-content {
+    padding: 15px;
+  }
+
+  .main-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .semester-table th,
+  .semester-table td {
+    padding: 10px;
+    font-size: 0.85rem;
   }
 }
