@@ -278,3 +278,52 @@
     opacity: 0.5;
   }
 }
+
+.user-avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-user-avatar {
+  font-size: 5rem;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+.user-info-section {
+  margin-bottom: 1.5rem;
+}
+
+.user-info-label {
+  font-weight: 600;
+  color: #6c757d;
+}
+
+.user-info-value {
+  font-weight: 400;
+}
+
+.course-list-item {
+  border-bottom: 1px solid #eee;
+  padding: 0.75rem 0;
+}
+
+.course-list-item:last-child {
+  border-bottom: none;
+}
+
+.status-badge {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.6rem;
+}
+
+/* Table adjustments */
+.table-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}

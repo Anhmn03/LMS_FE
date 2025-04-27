@@ -4,18 +4,40 @@ const AdminDataContext = createContext();
 
 export const AdminDataProvider = ({ children }) => {
   const [stats, setStats] = useState({ teachers: 0, students: 0, courses: 0 });
-  const [mostEnrolledCourses, setMostEnrolledCourses] = useState([]);
   const [teachersData, setTeachersData] = useState([]);
   const [studentsData, setStudentsData] = useState([]);
   const [coursesData, setCoursesData] = useState([]);
+  const [categoriesData, setCategoriesData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Fetch statistics data
+  const fetchStats = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch("http://localhost:9999/api/statictis/users", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+      const data = await res.json();
+
+      const studentsCount = data.stats[0]?.students || 0;
+      const teachersCount = data.stats[0]?.teachers || 0;
+
+      return { teachersCount, studentsCount };
+    } catch (err) {
+      setError("Error fetching statistics data");
+      console.error("Error fetching statistics data:", err);
+      return { teachersCount: 0, studentsCount: 0 };
+    }
+  };
 
   const fetchTeachers = async () => {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch("http://localhost:9999/api/users/teachers", {
-        // method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -32,7 +54,6 @@ export const AdminDataProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch("http://localhost:9999/api/users/students", {
-        // method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -49,7 +70,6 @@ export const AdminDataProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch("http://localhost:9999/api/courses", {
-        method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -62,38 +82,43 @@ export const AdminDataProvider = ({ children }) => {
     }
   };
 
-  const fetchMostEnrolledCourses = async () => {
+  const fetchCategories = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(
-        "http://localhost:9999/api/courses/most-enrolled",
-        {
-            method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const res = await fetch("http://localhost:9999/api/category", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data = await res.json();
-      setMostEnrolledCourses(data.courses || []);
+      setCategoriesData(data.data || []);
+      return data.data?.length || 0;
     } catch (err) {
-      setError("Error fetching most enrolled courses");
-      console.error("Error fetching most enrolled courses:", err);
+      setError("Error fetching categories data");
+      console.error("Error fetching categories data:", err);
+      return 0;
     }
   };
 
   const fetchAllData = async () => {
     setLoading(true);
-    const teachersCount = await fetchTeachers();
-    const studentsCount = await fetchStudents();
-    const coursesCount = await fetchCourses();
+    try {
+      // Get teachers and students count from statistics API
+      const { teachersCount, studentsCount } = await fetchStats();
 
-    setStats({
-      teachers: teachersCount,
-      students: studentsCount,
-      courses: coursesCount,
-    });
+      // Get courses count from courses API
+      const coursesCount = await fetchCourses();
 
-    await fetchMostEnrolledCourses();
-    setLoading(false);
+      setStats({
+        teachers: teachersCount,
+        students: studentsCount,
+        courses: coursesCount,
+      });
+
+      setLoading(false);
+    } catch (err) {
+      setError("Error fetching dashboard data");
+      console.error("Error fetching dashboard data:", err);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -104,15 +129,17 @@ export const AdminDataProvider = ({ children }) => {
     <AdminDataContext.Provider
       value={{
         stats,
-        mostEnrolledCourses,
         loading,
         error,
         teachersData,
         studentsData,
         coursesData,
+        categoriesData,
         fetchTeachers,
         fetchStudents,
         fetchCourses,
+        fetchCategories,
+        fetchAllData,
       }}
     >
       {children}

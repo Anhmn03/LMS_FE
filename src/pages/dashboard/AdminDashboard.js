@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Navbar, Nav } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Navbar,
+  Nav,
+  Button,
+  Modal,
+} from "react-bootstrap";
 import { useAuth } from "../../context/AuthContext";
 import { useAdminData } from "../../context/AdminDataContext";
 import {
@@ -10,11 +19,14 @@ import {
   FaBook,
   FaDollarSign,
   FaComments,
+  FaList,
 } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 import TeachersTable from "../../components/dashboard/TeacherTable";
 import StudentsTable from "../../components/dashboard/StudentTable";
 import CoursesTable from "../../components/dashboard/CourseTable";
+import CategoriesTable from "../../components/dashboard/CategoriesTable";
+import AddTeacherForm from "../../components/dashboard/AddTeacherForm";
 import "./Dashboard.css";
 
 const AdminDashboard = () => {
@@ -26,23 +38,30 @@ const AdminDashboard = () => {
     teachersData,
     studentsData,
     coursesData,
+    categoriesData,
     fetchTeachers,
     fetchStudents,
     fetchCourses,
+    fetchCategories,
+    fetchAllData,
   } = useAdminData();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeView, setActiveView] = useState("home");
   const [viewLoading, setViewLoading] = useState(false);
+  const [showAddTeacherModal, setShowAddTeacherModal] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    // Extract the view from pathname
     const path = location.pathname.split("/").pop();
     if (path === "admin-dashboard" || path === "admin") {
       setActiveView("home");
-    } else if (["teachers", "students", "courses", "revenue"].includes(path)) {
+    } else if (
+      ["teachers", "students", "courses", "revenue", "categories"].includes(
+        path
+      )
+    ) {
       setActiveView(path);
     }
   }, [location]);
@@ -64,6 +83,8 @@ const AdminDashboard = () => {
           await fetchStudents();
         } else if (view === "courses") {
           await fetchCourses();
+        } else if (view === "categories") {
+          await fetchCategories();
         }
       } catch (error) {
         console.error(`Error loading ${view} data:`, error);
@@ -73,6 +94,29 @@ const AdminDashboard = () => {
     }
 
     navigate(view === "home" ? "/admin" : `/${view}`);
+  };
+
+  const handleAddTeacher = () => {
+    setShowAddTeacherModal(true);
+  };
+
+  const handleTeacherAdded = async () => {
+    setShowAddTeacherModal(false);
+    await fetchTeachers();
+    await fetchAllData();
+  };
+
+  const handleRefreshData = async () => {
+    if (activeView === "teachers") {
+      await fetchTeachers();
+    } else if (activeView === "students") {
+      await fetchStudents();
+    } else if (activeView === "courses") {
+      await fetchCourses();
+    } else if (activeView === "categories") {
+      await fetchCategories();
+    }
+    await fetchAllData();
   };
 
   const renderContent = () => {
@@ -86,11 +130,30 @@ const AdminDashboard = () => {
 
     switch (activeView) {
       case "teachers":
-        return <TeachersTable teachers={teachersData} />;
+        return (
+          <TeachersTable
+            teachers={teachersData}
+            onRefresh={handleRefreshData}
+          />
+        );
       case "students":
-        return <StudentsTable students={studentsData} />;
+        return (
+          <StudentsTable
+            students={studentsData}
+            onRefresh={handleRefreshData}
+          />
+        );
       case "courses":
-        return <CoursesTable courses={coursesData} />;
+        return (
+          <CoursesTable courses={coursesData} onRefresh={handleRefreshData} />
+        );
+      case "categories":
+        return (
+          <CategoriesTable
+            categories={categoriesData}
+            onRefresh={handleRefreshData}
+          />
+        );
       case "revenue":
         return (
           <div className="text-center py-5">
@@ -201,6 +264,15 @@ const AdminDashboard = () => {
             {sidebarOpen && <span>Khóa học</span>}
           </Nav.Link>
           <Nav.Link
+            onClick={() => handleNavigation("categories")}
+            className={`sidebar-link ${
+              activeView === "categories" ? "active" : ""
+            }`}
+          >
+            <FaList className="sidebar-icon" />
+            {sidebarOpen && <span>Danh Mục</span>}
+          </Nav.Link>
+          <Nav.Link
             onClick={() => handleNavigation("revenue")}
             className={`sidebar-link ${
               activeView === "revenue" ? "active" : ""
@@ -234,6 +306,21 @@ const AdminDashboard = () => {
           {renderContent()}
         </Container>
       </div>
+
+      {/* Add Teacher Modal */}
+      <Modal
+        show={showAddTeacherModal}
+        onHide={() => setShowAddTeacherModal(false)}
+        size="lg"
+        centered
+      >
+        <Modal.Body className="p-0">
+          <AddTeacherForm
+            onTeacherAdded={handleTeacherAdded}
+            onCancel={() => setShowAddTeacherModal(false)}
+          />
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
