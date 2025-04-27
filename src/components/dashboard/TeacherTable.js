@@ -98,7 +98,7 @@ const TeachersTable = ({ teachers, onRefresh }) => {
               <th>ID</th>
               <th>Họ Tên</th>
               <th>Email</th>
-              <th>Số Khóa học</th>
+              {/* <th>Số Khóa học</th> */}
               <th>Trạng thái</th>
               <th>Ngày tạo</th>
               <th>Thao tác</th>
@@ -110,7 +110,7 @@ const TeachersTable = ({ teachers, onRefresh }) => {
                 <td>{teacher._id.substring(0, 8)}...</td>
                 <td>{teacher.fullName}</td>
                 <td>{teacher.email}</td>
-                <td>{teacher.totalCourses || 0}</td>
+                {/* <td>{teacher.totalCourses || 0}</td> */}
                 <td>
                   {teacher.status === "INACTIVE" || teacher.isBanned ? (
                     <Badge bg="danger">Không hoạt động</Badge>

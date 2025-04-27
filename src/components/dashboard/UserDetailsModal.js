@@ -260,7 +260,7 @@ const UserDetailsModal = ({ show, onHide, userId, userType }) => {
                                   {course.lessons?.length || 0} bài học
                                 </small>
                                 <small className="text-muted">
-                                  Giá: {course.price?.toLocaleString("vi-VN")}đ
+                                  Giá: {course.price?.toLocaleString("vi-VN")}USD
                                 </small>
                               </div>
                             </li>

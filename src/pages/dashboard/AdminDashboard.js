@@ -26,6 +26,7 @@ import TeachersTable from "../../components/dashboard/TeacherTable";
 import StudentsTable from "../../components/dashboard/StudentTable";
 import CoursesTable from "../../components/dashboard/CourseTable";
 import CategoriesTable from "../../components/dashboard/CategoriesTable";
+import RevenueContainer from "../../components/dashboard/RevenueContainer";
 import AddTeacherForm from "../../components/dashboard/AddTeacherForm";
 import "./Dashboard.css";
 
@@ -155,12 +156,7 @@ const AdminDashboard = () => {
           />
         );
       case "revenue":
-        return (
-          <div className="text-center py-5">
-            <h3>Báo cáo doanh thu</h3>
-            <p>Chức năng đang phát triển...</p>
-          </div>
-        );
+        return <RevenueContainer />;
       default:
         return (
           <>
