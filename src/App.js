@@ -15,6 +15,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import TeacherDashboard from "./pages/dashboard/TeacherDashboard";
 
 const App = () => {
   return (
@@ -27,7 +28,9 @@ const App = () => {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/verify-otp" element={<OtpVerification />} />
             <Route path="/" element={<Navigate to="/signin" replace />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/student/dashboard" element={<Dashboard />} />
+            <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
+            <Route path="/teacher/*" element={<TeacherDashboard />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/teachers" element={<AdminDashboard />} />
             <Route path="/students" element={<AdminDashboard />} />

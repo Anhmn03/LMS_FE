@@ -4,6 +4,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [idLogin, setIdLogin] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -57,17 +58,20 @@ export const AuthProvider = ({ children }) => {
 
       const data = await response.json();
       console.log("Login response:", data);
+      console.log("Teacher ID from login response:", data.data.user?._id);
 
       if (!response.ok) {
         throw new Error(data.message || "Failed to sign in");
       }
-
+      
       // Store token in localStorage
       localStorage.setItem("token", data.token);
 
       // Set user state immediately from the response data
-      setUser(data.user);
-
+      setUser(data.data.user);
+      console.log("User data set successfully:", data.data.user);
+      setIdLogin(data.data.user?._id);
+       
       return { success: true, data };
     } catch (err) {
       console.error("Login error:", err);
@@ -170,7 +174,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("token");
   };
-
+console.log("user:", user);
   return (
     <AuthContext.Provider
       value={{
@@ -182,6 +186,8 @@ export const AuthProvider = ({ children }) => {
         forgotPassword,
         verifyOtp,
         logout,
+        idLogin,
+        setIdLogin,
       }}
     >
       {children}

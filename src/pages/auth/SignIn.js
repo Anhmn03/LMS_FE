@@ -16,8 +16,6 @@ const SignIn = () => {
   const { signIn, loading, error } = useAuth();
   const navigate = useNavigate();
 
-  // Remove useEffect dependency on user state and handle navigation directly
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -35,13 +33,19 @@ const SignIn = () => {
       console.log("Sign in result:", result);
 
       if (result.success) {
-        // Navigate based on user role directly after successful login
-        const userRole = result.data.data?.user?.role?.name?.toLowerCase();
+        // Get the user role from the API response
+        const userRole = result.data.data?.user?.role?.name?.toUpperCase();
         console.log("User role for navigation:", userRole);
 
-        if (userRole == "admin") {
+        // Navigate based on user role
+        if (userRole === "ADMIN") {
           navigate("/admin");
+        } else if (userRole === "TEACHER") {
+          navigate("/teacher/dashboard");
+        } else if (userRole === "STUDENT") {
+          navigate("/student/dashboard");
         } else {
+          // Fallback in case the role is not recognized
           navigate("/dashboard");
         }
       } else {

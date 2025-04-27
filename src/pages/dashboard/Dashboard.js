@@ -10,11 +10,11 @@ import {
   FaComments,
   FaCog,
 } from "react-icons/fa";
-import "./Dashboard.css"; // Đổi từ App.css thành Dashboard.css
+import "./Dashboard.css";
 
 const Dashboard = () => {
-  const { user } = useAuth(); // Lấy thông tin user từ AuthContext
-  const [sidebarOpen, setSidebarOpen] = useState(false); // Trạng thái sidebar (mở rộng/thu gọn)
+  const { user } = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -22,7 +22,6 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      {/* Sidebar */}
       <div className={`sidebar ${sidebarOpen ? "open" : "closed"}`}>
         <div className="sidebar-header">
           <img
@@ -42,36 +41,34 @@ const Dashboard = () => {
           )}
         </div>
         <Nav className="flex-column sidebar-nav">
-          <Nav.Link href="/dashboard" className="sidebar-link">
+          <Nav.Link href="/student/dashboard" className="sidebar-link">
             <FaHome className="sidebar-icon" />
             {sidebarOpen && <span>Home</span>}
           </Nav.Link>
-          <Nav.Link href="/courses" className="sidebar-link">
+          <Nav.Link href="/student/mycourses" className="sidebar-link">
             <FaBook className="sidebar-icon" />
             {sidebarOpen && <span>My Courses</span>}
           </Nav.Link>
-          <Nav.Link href="/assignments" className="sidebar-link">
+          <Nav.Link href="/student/assignments" className="sidebar-link">
             <FaTasks className="sidebar-icon" />
             {sidebarOpen && <span>Assignments</span>}
           </Nav.Link>
-          <Nav.Link href="/timetable" className="sidebar-link">
+          <Nav.Link href="/student/timetable" className="sidebar-link">
             <FaCalendar className="sidebar-icon" />
             {sidebarOpen && <span>Time Table</span>}
           </Nav.Link>
-          <Nav.Link href="/forum" className="sidebar-link">
+          <Nav.Link href="/student/forum" className="sidebar-link">
             <FaComments className="sidebar-icon" />
             {sidebarOpen && <span>Forum</span>}
           </Nav.Link>
-          <Nav.Link href="/settings" className="sidebar-link">
+          <Nav.Link href="/student/settings" className="sidebar-link">
             <FaCog className="sidebar-icon" />
             {sidebarOpen && <span>Settings</span>}
           </Nav.Link>
         </Nav>
       </div>
 
-      {/* Main Content */}
       <div className={`main-content ${sidebarOpen ? "shifted" : ""}`}>
-        {/* Navbar với nút Hamburger */}
         <Navbar bg="light" className="dashboard-navbar">
           <FaBars className="hamburger-icon" onClick={toggleSidebar} />
           <Navbar.Brand className="ms-3">Dashboard</Navbar.Brand>
@@ -82,7 +79,6 @@ const Dashboard = () => {
           </Nav>
         </Navbar>
 
-        {/* Nội dung chính */}
         <Container fluid className="pt-4">
           <h2>Welcome Back, {user?.fullName || "Alex"}</h2>
           <Card className="program-card mt-4">
@@ -109,7 +105,6 @@ const Dashboard = () => {
             </Card.Body>
           </Card>
 
-          {/* Chứng chỉ */}
           <Row className="mt-4">
             <Col md={4}>
               <Card className="certificate-card">
@@ -152,7 +147,6 @@ const Dashboard = () => {
             </Col>
           </Row>
 
-          {/* Tiến độ */}
           <Row className="mt-4">
             <Col md={6}>
               <Card className="progress-card">
