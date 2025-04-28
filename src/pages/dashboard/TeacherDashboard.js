@@ -8,8 +8,9 @@ import {
   FaCog,
   FaBell,
   FaUserCircle,
+  FaSignOutAlt,
 } from "react-icons/fa";
-import { useNavigate, useLocation, Navigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Settings from "../../components/teacher-dashboard/Settings";
 import MyCourses from "../../components/teacher-dashboard/MyCourses";
 import "./Dashboard.css";
@@ -17,7 +18,7 @@ import { useAuth } from "../../context/AuthContext";
 import { TeacherProvider } from "../../context/TeacherContext";
 
 const TeacherDashboard = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeView, setActiveView] = useState("dashboard");
   const navigate = useNavigate();
@@ -39,6 +40,11 @@ const TeacherDashboard = () => {
   const handleNavigation = (view) => {
     setActiveView(view);
     navigate(view === "dashboard" ? "/teacher/dashboard" : `/teacher/${view}`);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/signin");
   };
 
   const renderContent = () => {
@@ -73,11 +79,11 @@ const TeacherDashboard = () => {
         {/* Sidebar */}
         <div className={`sidebar ${sidebarOpen ? "open" : "closed"}`}>
           <div className="sidebar-header">
-            <img src="/images/logo.png" alt="Logo" className="sidebar-logo" />
+            <img src="/images/OIP.jpg" alt="Logo" className="sidebar-logo" />
             {sidebarOpen && (
               <div className="user-info">
                 <img
-                  src="/images/avatar-placeholder.jpg"
+                  src={`http://localhost:9999${user?.profilePicture}`}
                   alt="User Avatar"
                   className="user-avatar"
                 />
@@ -121,6 +127,10 @@ const TeacherDashboard = () => {
             >
               <FaCog className="sidebar-icon" />
               {sidebarOpen && <span>Settings</span>}
+            </Nav.Link>
+            <Nav.Link onClick={handleLogout} className="sidebar-link">
+              <FaSignOutAlt className="sidebar-icon" />
+              {sidebarOpen && <span>Logout</span>}
             </Nav.Link>
           </Nav>
         </div>
