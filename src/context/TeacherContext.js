@@ -1,4 +1,3 @@
-// TeacherContext.js
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 
@@ -11,7 +10,7 @@ export const TeacherProvider = ({ children }) => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [isFetched, setIsFetched] = useState(false); // Add flag to track if data is fetched
+  const [isFetched, setIsFetched] = useState(false);
 
   const fetchTeacherCourses = async () => {
     if (!idLogin) {
@@ -19,21 +18,12 @@ export const TeacherProvider = ({ children }) => {
       return;
     }
 
-    // Fetch token from localStorage
     const token = localStorage.getItem("token");
     if (!token) {
       console.log("Cannot fetch courses: token is missing");
       setError("No authentication token found");
       return;
     }
-
-    // Skip fetch if data is already loaded
-    if (isFetched) {
-      console.log("Courses already fetched, skipping...");
-      return;
-    }
-
-    console.log("Fetching courses for teacher ID:", idLogin);
 
     setLoading(true);
     setError(null);
@@ -51,7 +41,7 @@ export const TeacherProvider = ({ children }) => {
 
       if (res.ok && data.success) {
         setCourses(data.data || []);
-        setIsFetched(true); // Mark as fetched
+        setIsFetched(true);
         return data.data?.length || 0;
       } else {
         setError(data.message || "Failed to fetch courses");
@@ -70,7 +60,7 @@ export const TeacherProvider = ({ children }) => {
     if (idLogin) {
       fetchTeacherCourses();
     }
-  }, [idLogin]); // Depend on idLogin
+  }, [idLogin]);
 
   const value = {
     courses,
