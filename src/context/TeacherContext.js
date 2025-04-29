@@ -62,6 +62,7 @@ export const TeacherProvider = ({ children }) => {
     }
   }, [idLogin]);
 
+  console.log("Course data:", courses);
   const value = {
     courses,
     loading,

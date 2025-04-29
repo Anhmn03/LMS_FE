@@ -13,6 +13,7 @@ import {
 import { useNavigate, useLocation } from "react-router-dom";
 import Settings from "../../components/teacher-dashboard/Settings";
 import MyCourses from "../../components/teacher-dashboard/MyCourses";
+import Lessons from "../../components/teacher-dashboard/Lessons";
 import "./Dashboard.css";
 import { useAuth } from "../../context/AuthContext";
 import { TeacherProvider } from "../../context/TeacherContext";
@@ -28,7 +29,7 @@ const TeacherDashboard = () => {
     const path = location.pathname.split("/").pop();
     if (path === "teacher" || path === "dashboard") {
       setActiveView("dashboard");
-    } else if (["mycourses", "lectures", "settings"].includes(path)) {
+    } else if (["mycourses", "lessons", "settings"].includes(path)) {
       setActiveView(path);
     }
   }, [location]);
@@ -51,8 +52,8 @@ const TeacherDashboard = () => {
     switch (activeView) {
       case "mycourses":
         return <MyCourses />;
-      case "lectures":
-        return <div>Lectures content will be implemented here</div>;
+      case "lessons":
+        return <Lessons />;
       case "settings":
         return <Settings />;
       case "dashboard":
@@ -111,13 +112,13 @@ const TeacherDashboard = () => {
               {sidebarOpen && <span>My Courses</span>}
             </Nav.Link>
             <Nav.Link
-              onClick={() => handleNavigation("lectures")}
+              onClick={() => handleNavigation("lessons")}
               className={`sidebar-link ${
-                activeView === "lectures" ? "active" : ""
+                activeView === "lessons" ? "active" : ""
               }`}
             >
               <FaChalkboardTeacher className="sidebar-icon" />
-              {sidebarOpen && <span>Lectures</span>}
+              {sidebarOpen && <span>Lessons</span>}
             </Nav.Link>
             <Nav.Link
               onClick={() => handleNavigation("settings")}
